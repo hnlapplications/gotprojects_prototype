@@ -1,0 +1,237 @@
+body
+{
+	font-family: 'Ubuntu', sans-serif;
+	margin:0px;
+}
+
+h1.page_heading
+{
+	
+}
+
+.header
+{
+	float:left;
+	background-color:skyblue;
+	width:100%;
+}
+
+.menu
+{
+	float:left;
+	width:100%;
+}
+
+.menu ul
+{
+	list-style:none;
+	float:left;
+	padding:0px;
+	width:90%;
+	margin:0;
+}
+
+.greeting {
+    float: right;
+}
+
+.menu ul li, .link_button
+{
+	float:left;
+	width:100px;
+	border:0.5px solid black;
+	margin:2px;
+	padding:2px;
+	text-align:center;
+	transition:all 0.25s linear;
+}
+
+.menu ul li:hover
+{
+	background-color:blue;
+}
+
+.menu ul li:hover a
+{
+	color:white;
+}
+
+.menu ul li a
+{
+	text-decoration:none;
+	color:black;
+	display:block;
+}
+
+.content
+{
+	float:left;
+	width:100%;
+}
+
+#project_lists 
+{
+    margin-top: 5px;
+}
+
+
+.checklist {
+    border:1px solid black;
+    border-radius:5px;
+    float: left;
+    margin-left:5px;
+    margin-right:5px;
+    margin-bottom:5px;
+    margin-top:0px;
+    min-width: 250px;
+    width:20%;
+    min-height: 300px;
+}
+
+
+.custom_checklist 
+{
+	border:1px solid black;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+
+.checklist_title {
+	border-bottom:1px solid black;
+	padding:5px;
+    text-align: center;
+    box-shadow: 0 0 26px -3px rgba(64, 64, 192, 0.6) inset;
+}
+
+
+.checklist_fields table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+
+.checklist_fields table tr {
+    background-color: #FFFFFF;
+}
+
+.checklist_fields table tr.disabled_row {
+    background-color: rgba(192, 192, 192, 0.6);
+    color: #808080;
+}
+
+
+
+.destination_fields, .new_fields 
+{
+    border:1px solid rgba(0, 0, 0, 0.5);
+    border-radius:5px;
+    float: left;
+    margin-bottom: 10px;
+    padding:5px;
+    width: 100%;
+}
+
+.new_checklist_div {
+    float: left;
+    width: 100%;
+}
+
+.existing_field_div {
+    float: left;
+    width: 150px;
+}
+
+.update_container 
+{
+    background-color: rgba(128, 128, 128, 0.3);
+	border:1px solid black;
+
+	margin:5px;
+   padding:5px;
+   border-radius:5px;
+}
+
+#projects_rows td
+{
+	padding:3px;
+	border:1px solid black;
+}
+
+#projects_table
+{
+	border-collapse:collapse;
+	
+}
+
+#fieldsTable td
+{
+	border:1px solid black;
+	padding:2px;
+}
+
+#fieldsTable
+{
+	border-collapse:collapse;
+}
+
+input[type="text"] {
+    
+    background-color: #FFFFFF;
+	border:1px solid black;
+	margin:1px;
+    padding:2px;
+    width: 90%;
+    max-width:150px;
+    transition:all 0.25s linear;
+    
+}
+
+input[type="text"]:focus
+{
+    
+   box-shadow:0px 0px 2px 1px rgba(0, 0, 0, 1);
+   border-radius:5px;
+   padding:3px;
+   margin:0px;
+}
+
+tr.disabled_row input[type="text"]
+{
+	background-color: #D0D0D0;
+}
+
+
+#project-notes {
+	border:1px solid black;
+	border-radius:5px;
+    clear: both;
+    float: left;
+    margin:5px;
+    width: 98%;
+    overflow:hidden;
+}
+
+.project_notes_heading
+{
+	float:left;
+	width:100%;
+	box-shadow: 0 0 26px -3px rgba(64, 64, 192, 0.6) inset;
+	text-align:center;
+	padding:5px;
+}
+
+
+button {
+    border:1px solid black;
+    margin:0px 1px;
+    min-width: 100px;
+    padding:5px;
+    text-align: center;
+    transition:all 0.25s linear;
+}
+
+.loading
+{
+	text-align:center;
+}
