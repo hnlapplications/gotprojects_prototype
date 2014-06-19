@@ -137,6 +137,7 @@ function someOtherFunc()
 function someFunc()
 {
 	echo "hi"; //say hi to the user
-	return;
+	return; //well this is a nice comment!
+	//and another one!
 }
 ?>
