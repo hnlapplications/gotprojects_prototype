@@ -131,7 +131,7 @@ function renderMenu()
 function someOtherFunc()
 {
 	echo "bye"; //say goodbye to the user
-	return;
+	return;//server commented this line
 }
 
 function someFunc()
