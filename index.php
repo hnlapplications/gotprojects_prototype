@@ -2,6 +2,7 @@
 	session_start();
 	/*****************
 	ENTRY POINT FOR GOTPROJECTS
+	change made by server
 	******************/
 	require_once(dirname(__FILE__) . "/php/includes.php"); 
 ?>
