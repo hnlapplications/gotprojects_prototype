@@ -42,7 +42,8 @@ function getField($id) //get the details of the field
 	}
 	else
 	{
-		return array(); //return a blank array
+		//~ return array(); //return a blank array
+		return null;
 	}
 }
 
