@@ -1,14 +1,5 @@
 <?php 
 	session_start();
-	/*****************
-	ENTRY POINT FOR GOTPROJECTS
-<<<<<<< HEAD
-	change made by server
-=======
-	some change by jp
-
->>>>>>> ac4f18deb216d2fe756555d98a250e7b75039466
-	******************/
 	require_once(dirname(__FILE__) . "/php/includes.php"); 
 ?>
 <!DOCTYPE html>

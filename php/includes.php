@@ -128,16 +128,4 @@ function renderMenu()
 	
 }
 
-function someOtherFunc()
-{
-	echo "bye"; //say goodbye to the user
-	return;//server commented this line
-}
-
-function someFunc()
-{
-	echo "hi"; //say hi to the user
-	return; //well this is a nice comment!
-	//and another one!
-}
 ?>
