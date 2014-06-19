@@ -1,6 +1,9 @@
-this is a readme file!
-this is a server line
-here is a line added by jp that was modified once
-This is a line that i added
-here is another line from jp at the end of the file
-abcdefghijklmnopqrstuvwxyz
+GotProjects Prototype
+
+Creators:
+HNL Applications: Lloyd McKeen & JP Meyer
+Date: June 2014
+
+Description:
+This is a basic prototype of the GotProjects component for Joomla!.
+It's only purpose is to flesh out issues and get a difinitive database and logic design for the component.
