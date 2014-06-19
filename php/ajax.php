@@ -1118,35 +1118,20 @@ function saveListFields()
 		$db->insert("field_list", array("field_id"=>$f, "list_id"=>$list_id));
 	}
 	
-	//right... now let's make sure any spawned llists match...
-	//first load all the lists 
-	//then go through each list
-		//check it's origin_list.
-	    //if the origin_list is not the id of this list, skip it.  we are only worried about lists that spawned from this one.
-			//for each field, check if it's field_id is in the array of fields we have
-			//if it is not, remove it.
-	//next, load all the lists with this list as the origin
-		//foreach $fields, check if there is a corresponding field for the current list
-		//if not, create one with the defaults
-		
-	$all_lists=$db->select("project_list", array("id", "origin_list"), array("origin_list='" . $list_id . "'"));
-	$all_fields=$db->select("field", array("id"));
-	foreach($all_lists as $list)
+	
+	//delete fields which are part of spawned lists and should not be.
+	//first get all the fields that are part of spawned lists
+	$current_fields=$db->query(
+		"SELECT field_values.id, field_values.field_id FROM field_values
+		LEFT JOIN project_list ON field_values.list_id=project_list.id
+		WHERE project_list.origin_list=" . $list_id
+	);
+	
+	foreach($current_fields as $f)
 	{
-		//first go through all the fields so that we can go through their tables
-		
-		foreach($all_fields as $f)
+		if (!in_array($f->field_id, $fields))
 		{
-			//go through this field's table.  
-			$list_fields=$db->select("field_" . $f->id . "_values", array("id", "field_id"), array("list_id='" . $list->id . "'"));
-			//now we have all the fields from the current list.  Check their field_ids.  If they are not in $fields then remove them
-			foreach($list_fields as $lf)
-			{
-				if (!in_array($lf->field_id, $fields))
-				{
-					$db->delete("field_" . $f->id . "_values", array("id='" . $lf->id . "'"));
-				}
-			}
+			$db->delete("field_values", array("id='" . $f->id . "'"));
 		}
 	}
 	
@@ -1163,10 +1148,10 @@ function saveListFields()
 			$defaults=$db->select("field", array("default_value"), array("id='" . $field . "'"))[0]->default_value;
 			
 			//if there are no fields matching $field in the current table matching this list, insert one
-			if (count($db->select("field_" . $field . "_values", array("id"), array("list_id='" . $list->id . "'")))==0)
+			if (count($db->select("field_values", array("id"), array("list_id='" . $list->id . "'", "field_id='" . $field . "'")))==0)
 			{
 				//insert $field's defaults
-				$db->insert("field_" . $field . "_values", array("field_id"=>$field, "value"=>$defaults, "list_id"=>$list->id));
+				$db->insert("field_values", array("field_id"=>$field, "value"=>$defaults, "list_id"=>$list->id));
 			}
 		}
 	}

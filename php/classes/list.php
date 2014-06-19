@@ -63,6 +63,11 @@ class Checklist
 		{
 			//echo "Getting field " . $r->field_id . "<br />";
 			$field=getField($r->field_id);
+			if ($field==null)
+			{
+				//SKIP
+				continue;
+			}
 			//echo "ran getField()<br />";
 			$r=new Field(
 				$field->id, 
