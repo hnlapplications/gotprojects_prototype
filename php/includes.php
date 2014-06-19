@@ -131,5 +131,6 @@ function renderMenu()
 function someFunc()
 {
 	echo "hi"; //say hi to the user
+	return;
 }
 ?>
