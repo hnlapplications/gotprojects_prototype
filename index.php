@@ -1,5 +1,8 @@
 <?php 
 	session_start();
+	/*****************
+	ENTRY POINT FOR GOTPROJECTS
+	******************/
 	require_once(dirname(__FILE__) . "/php/includes.php"); 
 ?>
 <!DOCTYPE html>
