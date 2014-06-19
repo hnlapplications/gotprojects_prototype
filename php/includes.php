@@ -18,7 +18,6 @@ require_once("classes/list.php");
 require_once("classes/projecttype.php");
 
 $db=new HNLDB("mysql", "localhost", "gotprojects", "root", "", HNLDB::ERROR_EXCEPTION);
-//~ $db=new HNLDB("mysql", "localhost", "ggotwebc_gotprojects", "ggotwebc_gotproj", "wq#%Z^7Z(*IM", HNLDB::ERROR_EXCEPTION);
 
 function getField($id) //get the details of the field
 {
