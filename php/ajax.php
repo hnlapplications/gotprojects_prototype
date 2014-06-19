@@ -511,18 +511,21 @@ function saveFieldLists()
 	}
 	
 	//check if there are any dependent lists that exist... modify them too... their origin will be the list id in the lists array
-	//we'll list a list of all fields which correspond to this one.
-	//then loop through each field
-		//load the field's list with it's origin id
-		//if the origin id is in the array $lists, it's fine.  If not, remove the field row
+
 	
-	$fields=$db->select("field_" . $field_id . "_values", array("id", "list_id"));
+	//get all fields and their origin lists
+	$fields=$db->query("SELECT field_values.id, field_values.list_id, project_list.origin_list 
+		FROM field_values
+		LEFT JOIN project_list on project_list.id=field_values.list_id
+		WHERE field_values.field_id=" . $field_id
+	);
+	
+	//remove fields which should not be there
 	foreach($fields as $field)
 	{
-		$field_list=$db->select("project_list", array("id", "origin_list"), array("id='" . $field->list_id . "'"))[0];
-		if (!in_array($field_list->origin_list, $lists)&&$field_list->origin_list!='0')
+		if (!in_array($field->origin_list, $lists)&&$field->origin_list!='0')
 		{
-			$db->delete("field_" . $field_id . "_values", array("id='" . $field->id . "'"));
+			$db->delete("field_values", array("id='" . $field->id . "'"));
 		}
 	}
 	
@@ -539,9 +542,9 @@ function saveFieldLists()
 		//now check this field's table to see if one exists.
 		foreach($project_lists as $project_list)
 		{
-			if (count($db->select("field_" . $field_id . "_values", array("id"), array("list_id='" . $project_list->id . "'")))==0)
+			if (count($db->select("field_values", array("id"), array("list_id='" . $project_list->id . "'", "field_id='" . $field_id . "'")))==0)
 			{
-				$db->insert("field_" . $field_id . "_values", array("field_id"=>$field_id, "value"=>$default, "list_id"=>$project_list->id));
+				$db->insert("field_values", array("field_id"=>$field_id, "value"=>$default, "list_id"=>$project_list->id));
 			}
 		}
 		
