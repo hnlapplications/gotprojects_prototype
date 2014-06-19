@@ -128,9 +128,18 @@ function renderMenu()
 	
 }
 
+<<<<<<< HEAD
+function someOtherFunc()
+{
+	echo "bye"; //say goodbye to the user
+	return;
+}
+
+=======
 function someFunc()
 {
 	echo "hi"; //say hi to the user
 	return;
 }
+>>>>>>> 74ea9518db0579f699f099dbecb0a943f0566728
 ?>
