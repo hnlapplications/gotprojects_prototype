@@ -128,4 +128,9 @@ function renderMenu()
 	
 }
 
+function someOtherFunc()
+{
+	echo "bye"; //say goodbye to the user
+}
+
 ?>
