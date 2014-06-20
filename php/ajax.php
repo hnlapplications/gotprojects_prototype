@@ -124,7 +124,7 @@ function deleteProject()
 {
 	if ($_SESSION['group_id']!=1)
 	{
-		echo "You do not have permission to delete a project.");
+		echo "You do not have permission to delete a project.";
 		return;
 	}
 	
@@ -161,6 +161,7 @@ function deleteProject()
 	
 	//delete the project
 	$db->delete("project", array("id='" . $project_id . "'"));
+	echo "ok";
 }
 
 function login()
