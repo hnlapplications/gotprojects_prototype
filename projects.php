@@ -71,7 +71,7 @@
 			
 			$.each(projects, function (k, v)
 			{
-				$("#projects_rows").append("<tr><td>" + v.id + "</td><td>" + v.title + "</td><td>" + v.project_type_name + "</td><td> <button class='group_stats_btn' data-group-to-be-done='" +  v.groupFieldsToBeDone +"'>Group: " + v.allowedGroupFieldsCompletion + (v.allowedGroupFieldsCompletion=="n/a"?"":"%") + "</button><button class='user_stats_btn' data-group-to-be-done='" +  v.userFieldsToBeDone +"'>You: " + v.allowedUserFieldsCompletion + (v.allowedUserFieldsCompletion=="n/a"?"":"%") +"</button><button onclick='viewStats(" + v.id + ", &apos;" + v.title + "&apos;);'>Total: " + v.completion + " %</button></td><td><button onclick='edit(" + v.id + ");'>Edit</button><button onclick='viewUpdates(" + v.id + ");'>View Updates</button></td></tr>");
+				$("#projects_rows").append("<tr><td>" + v.id + "</td><td>" + v.title + "</td><td>" + v.project_type_name + "</td><td> <button class='group_stats_btn' data-group-to-be-done='" +  v.groupFieldsToBeDone +"'>Group: " + v.allowedGroupFieldsCompletion + (v.allowedGroupFieldsCompletion=="n/a"?"":"%") + "</button><button class='user_stats_btn' data-group-to-be-done='" +  v.userFieldsToBeDone +"'>You: " + v.allowedUserFieldsCompletion + (v.allowedUserFieldsCompletion=="n/a"?"":"%") +"</button><button onclick='viewStats(" + v.id + ", &apos;" + v.title + "&apos;);'>Total: " + v.completion + " %</button></td><td><button onclick='edit(" + v.id + ");'>Edit</button><button onclick='viewUpdates(" + v.id + ");'>View Updates</button><button onclick='deleteProject(" + v.id + ");'>Delete</button></td></tr>");
 			});
 			$("#message").hide();
 			$("#projects_table").show();
