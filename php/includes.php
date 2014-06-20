@@ -1,7 +1,7 @@
 <?php
 //session_start();
 error_reporting(E_ERROR | E_PARSE);
-if (basename($_SERVER['PHP_SELF'])!="login.php" && basename($_SERVER['PHP_SELF']&& basename($_SERVER['PHP_SELF']) !="mail_open_projects.php" && (!isset($_SESSION['uid']) || $_SESSION['uid']<1 || !isset($_SESSION['group_id']) || $_SESSION['group_id']<0))
+if (basename($_SERVER['PHP_SELF'])!="login.php" && basename($_SERVER['PHP_SELF']) != "ajax.php" && basename($_SERVER['PHP_SELF']) !="mail_open_projects.php" && (!isset($_SESSION['uid']) || $_SESSION['uid']<1 || !isset($_SESSION['group_id']) || $_SESSION['group_id']<0))
 {
 	//echo basename($_SERVER['PHP_SELF']) . " has no session uid set!";
 	header("Location: login.php");
