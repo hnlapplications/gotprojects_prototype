@@ -130,9 +130,9 @@ function deleteProject()
 	
 	global $db;
 	
-	$project_id=$_POST['project_id'[;
+	$project_id=$_POST['project_id'];
 	//get all the lists for this project
-	$lists=$db->selecct("project_list", array("id"), array("project_id='" . $project_id . "'"));
+	$lists=$db->select("project_list", array("id"), array("project_id='" . $project_id . "'"));
 	
 	//get all the fields for this projects lists
 	$fields=array();
