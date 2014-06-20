@@ -179,6 +179,37 @@
 			alert("Something bad happened while we were trying to fetch the updates for this project.  Sorry about that.");
 		});
 	}
+	
+	function deleteProject(id)
+	{
+		if (!confirm("Are you sure you want to delete this project? This action can NOT be undone."))
+		{
+			return;
+		}
+		//if we reach this point, we know that the user clicked OK...
+		$.ajax(
+		{
+			url:"php/ajax.php",
+			type:"POST",
+			data:{task:"deleteProject", project_id:id}
+		})
+		.done(function(data)
+		{
+			if (data!="ok")
+			{
+				alert(data);
+			}
+			else
+			{
+				alert("Project deleted.");
+				location.reload();
+			}
+		})
+		.fail(function()
+		{
+			alert("An error occured while attempting to delete your project");
+		});
+	}
 	</script>
 	
 </head>
