@@ -92,6 +92,9 @@ switch($_POST['task'])
 	case "loadProjectUpdates":
 		loadProjectUpdates();
 		break;
+	case "deleteProject":
+		deleteProject();
+		break;
 	default:	
 		Throw new Exception("AJAX Error: No function selected.");
 }
@@ -115,6 +118,43 @@ function clearProjects()
 	$db->delete("notes", null);
 	
 	echo "ok";
+}
+
+function deleteProject()
+{
+	global $db;
+	
+	$project_id=$_POST['project_id'[;
+	//get all the lists for this project
+	$lists=$db->selecct("project_list", array("id"), array("project_id='" . $project_id . "'"));
+	
+	//get all the fields for this projects lists
+	$fields=array();
+	foreach($lists as $list)
+	{
+		$list_fields=$db->select("field_values", array("id"), array("list_id='" . $list->id . "'"));
+		foreach($list_fields as $field)
+		{
+			array_push($fields, $field->id);
+		}
+		//delete the list
+		$db->delete("project_list", array("id='" . $list->id . "'"));
+	}
+	
+	//right, now delete the fields
+	$db->delete("field_values", array("id IN (" . implode(', ', $fields) . ")"));
+	
+	//delete notes
+	$db->delete("notes", array("project_id='" . $project_id . "'"));
+	
+	//delete updates
+	$db->delete("updates", array("project_id='" . $project_id . "'"));
+	
+	//delete project_users
+	$db->delete("project_users", array("project_id='" . $project_id . "'"));
+	
+	//delete the project
+	$db->delete("project", array("id='" . $project_id . "'"));
 }
 
 function login()
