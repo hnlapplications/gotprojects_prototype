@@ -122,6 +122,12 @@ function clearProjects()
 
 function deleteProject()
 {
+	if ($_SESSION['group_id']!=1)
+	{
+		echo "You do not have permission to delete a project.");
+		return;
+	}
+	
 	global $db;
 	
 	$project_id=$_POST['project_id'[;
