@@ -87,18 +87,21 @@ foreach($usergroups as &$usergroup)
 
 //now we have an array of users, and usergroups with their users...
 //run through the users
-
+//~ print_r($projects);
 foreach($users as $user)
 {
 	//run through projects...
 	$open_projects=array();
 	foreach($projects as $project)
 	{
+		//~ echo "<br /><br />" . print_r($projects, true) . "<br /><br />";
+		
 		$open_project=$project;
 		if (in_array($user->id, $project->users))
 		{
 			//the user is involved in this project.  Check if there are any fields to which they are allowed to contribute...
 			$open_checklists=array();
+			//~ echo "<br /><br />00000000000000000000000000000000000000000000<br /><br />" . print_r($projects, true) . "<br />0000000000000000000000000000<br />";
 			foreach($project->checklists as $checklist)
 			{
 				$list=$checklist;
@@ -117,12 +120,15 @@ foreach($users as $user)
 					array_push($open_checklists, $open_checklist);
 				}
 			}
+			
 			if (count($open_checklists)>0)
 			{
 				$open_project->checklists=$open_checklists;
 				array_push($open_projects, $open_project);
 			}
+			
 		}
+		
 	}
 	
 	if (count($open_projects)==0)
@@ -152,7 +158,6 @@ foreach($users as $user)
 	echo "Email " . $user->username . ": <br />" . $email . "<hr />";
 	
 }
-
 
 //cool stuff... Nwow compile emails for usergroups...
 foreach($usergroups as &$usergroup)
