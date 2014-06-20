@@ -101,6 +101,12 @@ switch($_POST['task'])
 
 function clearProjects()
 {
+	if ($_SESSION['group_id']!=1)
+	{
+		echo "You do not have permission to delete a project.";
+		return;
+	}
+	
 	global $db; // $db=new HNLDB("mysql", "localhost", "gotprojects", "root", "", HNLDB::ERROR_EXCEPTION);
 	
 	//clear field tables
