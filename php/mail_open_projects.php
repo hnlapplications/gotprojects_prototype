@@ -1,6 +1,7 @@
 <?php
 
 require_once("includes.php"); 
+require("classes/phpmailer/class.phpmailer.php");
 global $db; // $db=new HNLDB("mysql", "localhost", "gotprojects", "root", "", HNLDB::ERROR_EXCEPTION);
 
 //get all the projects in the system
@@ -147,7 +148,6 @@ foreach($users as $user)
 	$email="";
 	foreach($open_projects as $project)
 	{
-		$email.="===================================================================<br />";
 		$email.="<strong>Project:</strong> " . $project->title . "<br /><br />";
 		foreach($project->checklists as $checklist)
 		{
@@ -158,11 +158,33 @@ foreach($users as $user)
 			}
 			$email.="</ul></ul>";
 		}
-		$email.="===================================================================<br />";
 	}
 	$email.="</ul>";
 	
-	echo "Email " . $user->username . " (" . $user->email . "): <br />" . $email . "<hr />";
+	//echo "Email " . $user->username . " (" . $user->email . "): <br />" . $email . "<hr />";
+	
+	$mail = new PHPMailer();
+
+	$mail->IsSMTP();  // telling the class to use SMTP
+	$mail->Host     = "mail.gotweb.co.za"; // SMTP server
+	$mail->SMTPAuth   = true;
+	$mail->Username     = "gotprojects@gotweb.co.za";
+	$mail->Password     = "Jimly$465GoT";
+	$mail->AddAddress($user->email);
+	$mail->IsHTML(true); 
+	$mail->Subject  = "GotProjects: Your Assigned Projects";
+	$mail->Body     = "Hi, " . $user->username . "<br /><br />Here are projects that you are assigned to and that have checks that you can still complete:<br /><br />" . $email;
+	$mail->WordWrap = 50;
+
+	if(!$mail->Send()) 
+	{
+		echo 'Message was not sent.';
+		echo 'Mailer error: ' . $mail->ErrorInfo;
+	} 
+	else 
+	{
+		echo 'Message has been sent.';
+	}
 	
 }
 
@@ -235,24 +257,67 @@ foreach($usergroups as &$usergroup)
 		array_push($usergroup->useremails, $user->email);
 	}
 	
+	//~ $email="";
+	//~ foreach($open_projects as $project)
+	//~ {
+		//~ $email.="===================================================================<br />";
+		//~ $email.="Project:<br />" . $project->title . "<br /><br />";
+		//~ foreach($project->checklists as $checklist)
+		//~ {
+			//~ $email.="->Checklist: " . $checklist->title . "<br /><br />";
+			//~ foreach($checklist->fields as $field)
+			//~ {
+				//~ $email.="----> " . $field->title . "<br />";
+			//~ }
+			//~ $email.="<br /><br />";
+		//~ }
+		//~ $email.="===================================================================<br />";
+	//~ }
+	
 	$email="";
 	foreach($open_projects as $project)
 	{
-		$email.="===================================================================<br />";
-		$email.="Project:<br />" . $project->title . "<br /><br />";
+		$email.="<strong>Project:</strong> " . $project->title . "<br /><br />";
 		foreach($project->checklists as $checklist)
 		{
-			$email.="->Checklist: " . $checklist->title . "<br /><br />";
+			$email.="<ul><li>Checklist: " . $checklist->title . "</li><ul>";
 			foreach($checklist->fields as $field)
 			{
-				$email.="----> " . $field->title . "<br />";
+				$email.="<li>" . $field->title . "</li>";
 			}
-			$email.="<br /><br />";
+			$email.="</ul></ul>";
 		}
-		$email.="===================================================================<br />";
 	}
+	$email.="</ul>";
 	
-	echo "Email group: " . $usergroup->title . "(" . implode(', ', $usergroup->useremails) . "): <br />" . $email . "<hr />";
+	//echo "Email group: " . $usergroup->title . "(" . implode(', ', $usergroup->useremails) . "): <br />" . $email . "<hr />";
+	$mail = new PHPMailer();
+
+	$mail->IsSMTP();  // telling the class to use SMTP
+	$mail->Host     = "mail.gotweb.co.za"; // SMTP server
+	$mail->SMTPAuth   = true;
+	$mail->Username     = "gotprojects@gotweb.co.za";
+	$mail->Password     = "Jimly$465GoT";
+	foreach($usergroup->useremails as $useremail)
+	{
+		$mail->AddAddress($useremail);
+	}
+	$mail->IsHTML(true); 
+	$mail->Subject  = "GotProjects: Your Group Assigned Projects";
+	$mail->Body     = "Hi, <br /><br />Here are projects that are assigned to your usergroup and that have checks that you can still complete:<br /><br />" . $email;
+	$mail->WordWrap = 50;
+	
+	echo $mail->Body . "<hr />";
+
+	if(!$mail->Send()) 
+	{
+		echo 'Message was not sent.';
+		echo 'Mailer error: ' . $mail->ErrorInfo;
+	} 
+	else 
+	{
+		echo 'Message has been sent.';
+	}
 	
 }
 
