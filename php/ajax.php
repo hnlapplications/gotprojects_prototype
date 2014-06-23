@@ -177,7 +177,7 @@ function login()
 	
 	global $db; // $db=new HNLDB("mysql", "localhost", "gotprojects", "root", "", HNLDB::ERROR_EXCEPTION);
 	
-	$result=$db->select("users", array("id", "uid", "group_id"), array("username='" . $username . "'", "password='" . $password . "'"));
+	$result=$db->select("users", array("id", "uid", "group_id", "email"), array("username='" . $username . "'", "password='" . $password . "'"));
 	if ($result==null || count($result)<1 || count($result)>1)
 	{
 		echo json_encode(array("result"=>"fail"));
@@ -187,6 +187,7 @@ function login()
 		$_SESSION['uid']=$result[0]->id;
 		$_SESSION['group_id']=$result[0]->group_id;
 		$_SESSION['username']=$username;
+		$_SESSION['email']=$email;
 		
 		echo json_encode(array("result"=>"ok"));
 	}
@@ -197,10 +198,11 @@ function signUp()
 {
 	$username=$_POST['newusername'];
 	$password=$_POST['userpassword'];
+	$useremail=$_POST['useremail'];
 	
 	$uniqueId = time();
 	
-	$data=array("username"=>$username,"password"=>$password,"uid"=>$uniqueId);
+	$data=array("username"=>$username,"password"=>$password,"uid"=>$uniqueId,"email"=>$email);
 	
 	global $db; // $db=new HNLDB("mysql", "localhost", "gotprojects", "root", "", HNLDB::ERROR_EXCEPTION);
 	

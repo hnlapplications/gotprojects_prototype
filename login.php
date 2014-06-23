@@ -62,7 +62,7 @@ require_once(dirname(__FILE__) . "/php/includes.php"); ?>
 				{
 					url:"php/ajax.php",
 					type:"POST",
-					data:{task:"signup", newusername:$("#newusername").val(), userpassword:$("#userpassword").val()}
+					data:{task:"signup", newusername:$("#newusername").val(), userpassword:$("#userpassword").val(), useremail:$("#useremail").val()}
 				})
 				.done(function(data)
 				{
@@ -137,6 +137,14 @@ require_once(dirname(__FILE__) . "/php/includes.php"); ?>
 					</td>
 					<td>
 						<input type="password" id="userpassword">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Email
+					</td>
+					<td>
+						<input type="text" id="useremail">
 					</td>
 				</tr>
 			</table>
