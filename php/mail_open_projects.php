@@ -75,50 +75,58 @@ unset($temp);
 
 //~ print_r($projects);
 //right, now we need to get all the users and usergroups...
-$users=$db->select("users", array("id", "username", "group_id"));
+$users=$db->select("users", array("id", "username", "group_id", "email"));
 $usergroups=$db->select("usergroups", array("id", "title"));
 
 //get all the users for each usergroup
 foreach($usergroups as &$usergroup)
 {
-	$usergroup->users=$db->select("users", array("id", "username"), array("group_id='" . $usergroup->id . "'"));
+	$usergroup->users=$db->select("users", array("id", "username", "email"), array("group_id='" . $usergroup->id . "'"));
 }
 
 
 //now we have an array of users, and usergroups with their users...
 //run through the users
-//~ print_r($projects);
 foreach($users as $user)
 {
 	//run through projects...
 	$open_projects=array();
 	foreach($projects as $project)
-	{
-		//~ echo "<br /><br />" . print_r($projects, true) . "<br /><br />";
+	{		
+		$open_project=new stdClass();
+		$open_project->title=$project->title;
+		$open_project->checklists=$project->checklists;
+		$open_project->users=$project->users;
 		
-		$open_project=$project;
-		if (in_array($user->id, $project->users))
+		if (in_array($user->id, $open_project->users))
 		{
 			//the user is involved in this project.  Check if there are any fields to which they are allowed to contribute...
 			$open_checklists=array();
-			//~ echo "<br /><br />00000000000000000000000000000000000000000000<br /><br />" . print_r($projects, true) . "<br />0000000000000000000000000000<br />";
-			foreach($project->checklists as $checklist)
+			
+			foreach($open_project->checklists as $checklist)
 			{
-				$list=$checklist;
+				$list=new stdClass();
+				$list->id=$checklist->id;
+				$list->title=$checklist->title;
+				$list->fields=$checklist->fields;
+				
 				$open_fields=array();
-				foreach($checklist->fields as $field)
+				
+				foreach($list->fields as &$field)
 				{
 					if (in_array($user->group_id, $field->usergroups))
 					{
 						array_push($open_fields, $field);
 					}
 				}
+				
+				
 				if (count($open_fields)>0)
 				{
-					$open_checklist=$checklist;
-					$open_checklist->fields=$open_fields;
-					array_push($open_checklists, $open_checklist);
+					$list->fields=$open_fields;
+					array_push($open_checklists, $list);
 				}
+				
 			}
 			
 			if (count($open_checklists)>0)
@@ -140,26 +148,26 @@ foreach($users as $user)
 	foreach($open_projects as $project)
 	{
 		$email.="===================================================================<br />";
-		$email.="Project:<br />" . $project->title . "<br /><br />";
+		$email.="<strong>Project:</strong> " . $project->title . "<br /><br />";
 		foreach($project->checklists as $checklist)
 		{
-			$email.="->Checklist: " . $checklist->title . "<br /><br />";
+			$email.="<ul><li>Checklist: " . $checklist->title . "</li><ul>";
 			foreach($checklist->fields as $field)
 			{
-				$email.="----> " . $field->title . "<br />";
+				$email.="<li>" . $field->title . "</li>";
 			}
-			$email.="<br /><br />";
+			$email.="</ul></ul>";
 		}
 		$email.="===================================================================<br />";
 	}
+	$email.="</ul>";
 	
-	
-	//~ TODO: Uncomment the line below.  We know that this works.
-	echo "Email " . $user->username . ": <br />" . $email . "<hr />";
+	echo "Email " . $user->username . " (" . $user->email . "): <br />" . $email . "<hr />";
 	
 }
 
 //cool stuff... Nwow compile emails for usergroups...
+
 foreach($usergroups as &$usergroup)
 {
 	echo "<br /><br />Processing usergroup... " . $usergroup->title . "... ";
@@ -173,28 +181,43 @@ foreach($usergroups as &$usergroup)
 	$open_projects=array();
 	foreach($projects as $project)
 	{
+		$open_project=new stdClass();
+		$open_project->title=$project->title;
+		$open_project->checklists=$project->checklists;
+		$open_project->users=$project->users;
+		
 		$open_checklists=array();
-		foreach($project->checklists as $checklist)
+		foreach($open_project->checklists as $checklist)
 		{
+			$list=new stdClass();
+			$list->id=$checklist->id;
+			$list->title=$checklist->title;
+			$list->fields=$checklist->fields;
+			
 			$open_fields = array();
+			
+			
 			foreach($checklist->fields as $field)
 			{
-				//~ echo "Now on field: " . $field->field_id . ": gid is " . $usergroup->id . " AND usergroups are " . print_r($field->usergroups, true) . "<br /><br /><br />";
+				
 				if (in_array($usergroup->id, $field->usergroups))
 				{
 					array_push($open_fields, $field);
 				}
 			}
+			
 			if (count($open_fields)>0)
 			{
-				$checklist->fields=$open_fields;
-				array_push($open_checklists, $checklist);
+				$list->fields=$open_fields;
+				array_push($open_checklists, $list);
 			}
+			
+			
 		}
 		if (count($open_checklists)>0)
 		{
-			$project->checklists=$open_checklists;
-			array_push($open_projects, $project);
+			$open_project->checklists=$open_checklists;
+			array_push($open_projects, $open_project);
 		}
 		
 	}
@@ -205,9 +228,11 @@ foreach($usergroups as &$usergroup)
 	}
 	
 	$usergroup->usernames=array();
+	$usergroup->useremails=array();
 	foreach($usergroup->users as $user)
 	{
 		array_push($usergroup->usernames, $user->username);
+		array_push($usergroup->useremails, $user->email);
 	}
 	
 	$email="";
@@ -227,9 +252,10 @@ foreach($usergroups as &$usergroup)
 		$email.="===================================================================<br />";
 	}
 	
-	echo "Email group: " . $usergroup->title . "(" . implode(', ', $usergroup->usernames) . "): <br />" . $email . "<hr />";
+	echo "Email group: " . $usergroup->title . "(" . implode(', ', $usergroup->useremails) . "): <br />" . $email . "<hr />";
 	
 }
+
 
 echo ">>END<<";
 
