@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2014 at 12:37 PM
+-- Generation Time: Jun 23, 2014 at 10:38 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -33,8 +33,6 @@ CREATE TABLE IF NOT EXISTS `default_list` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
-
-
 -- --------------------------------------------------------
 
 --
@@ -54,8 +52,6 @@ CREATE TABLE IF NOT EXISTS `field` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=48 ;
 
-
-
 -- --------------------------------------------------------
 
 --
@@ -67,8 +63,7 @@ CREATE TABLE IF NOT EXISTS `field_list` (
   `field_id` int(11) NOT NULL,
   `list_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=64 ;
-
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=100 ;
 
 -- --------------------------------------------------------
 
@@ -83,8 +78,7 @@ CREATE TABLE IF NOT EXISTS `field_permissions` (
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`),
   KEY `group_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=172 ;
-
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=176 ;
 
 -- --------------------------------------------------------
 
@@ -98,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `field_values` (
   `value` text NOT NULL,
   `list_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=63 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=227 ;
 
 -- --------------------------------------------------------
 
@@ -112,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `list` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `notes`
@@ -128,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `notes` (
   `options` varchar(4096) NOT NULL,
   `count_for_completion` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -141,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   `title` varchar(250) NOT NULL,
   `project_type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -156,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `project_list` (
   `custom_id` int(11) DEFAULT NULL,
   `origin_list` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
 
 -- --------------------------------------------------------
 
@@ -170,6 +165,7 @@ CREATE TABLE IF NOT EXISTS `project_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `project_users`
@@ -180,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `project_users` (
   `project_id` int(11) NOT NULL DEFAULT '0',
   `uid` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
 
 -- --------------------------------------------------------
 
@@ -195,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `updates` (
   `uid` int(11) NOT NULL,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -209,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `usergroups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
-
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `users`
@@ -219,12 +215,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(250) NOT NULL,
   `password` varchar(250) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `uid` int(11) NOT NULL,
   `group_id` int(11) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
-
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
