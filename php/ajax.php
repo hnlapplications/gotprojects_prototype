@@ -208,14 +208,6 @@ function signUp()
 	
 	$result=$db->insert("users", $data);
 	
-	/*try
-	{
-		$result=$db->insert("users", $data);
-	}
-	catch(Exception $e)
-	{
-		throw new Exception($e->getMessage());
-	}*/
 		
 	if ($result)
 	{
@@ -238,14 +230,7 @@ function registerUserGroup()
 	
 	$result=$db->insert("usergroups", $data);
 	
-	/*try
-	{
-		$result=$db->insert("users", $data);
-	}
-	catch(Exception $e)
-	{
-		throw new Exception($e->getMessage());
-	}*/
+	
 		
 	if ($result)
 	{
@@ -374,26 +359,7 @@ function saveField()
 	
 	
 }
-/*
-function loadFieldUsergroups()
-{
-	$field_id=$_POST['id'];
-	global $db; // $db=new HNLDB("mysql", "localhost", "gotprojects", "root", "", HNLDB::ERROR_EXCEPTION);
-	//first, load all the user groups
-	$usergroups=$db->select("usergroups", array("id", "title"));
-	//loop through groups and check if the field in question is available to that group
-	foreach($usergroups as &$u)
-	{
-		$u->allowed=false; //current usergroup is not allowed to use this field (just initializing here)
-		$result=$db->select("field_permissions", array("id"), array("field_id='" . $field_id . "'", "group_id='" . $u->id . "'"));
-		if (count($result)>0)
-		{
-			$u->allowed=true; //well what do ya know, they are allowed to use the field after all! 
-		}
-	}
-	echo json_encode($usergroups);
-}
-*/
+
 
 function loadFieldUsergroups()
 {
@@ -457,26 +423,7 @@ function saveList()
 	$checklist->save();
 	echo "ok";
 }
-/*
-function loadListFields()
-{
-	global $db; // $db=new HNLDB("mysql", "localhost", "gotprojects", "root", "", HNLDB::ERROR_EXCEPTION);
-	$list_id=$_POST['id'];
-	$fields=$db->select("field_list", array("DISTINCT(field_id) as field_id"));
-	foreach($fields as &$field)
-	{
-		$field=getField($field->field_id);
-		//right, so now we have the field... check if it is part of this list...
-		$field->isPartOfList=false;
-		if (count($db->select("field_list", array("id"), array("list_id='" . $list_id . "'", "field_id='" . $field->id . "'"))))
-		{
-			$field->isPartOfList=true;
-		}
-	}
-	
-	echo json_encode($fields);
-}
-* */
+
 
 function loadListFields()
 {
@@ -496,36 +443,6 @@ function loadListFields()
 	
 	echo json_encode($fields);
 }
-/*
-function loadFieldLists()
-{
-	$field_id=$_POST['id'];
-	global $db; // $db=new HNLDB("mysql", "localhost", "gotprojects", "root", "", HNLDB::ERROR_EXCEPTION);
-	$fields=array("list_id");
-	$conditions=array("field_id='". $field_id . "'");
-	$field_lists=$db->select("field_list", $fields, $conditions);
-	
-	//now we have all the lists which apply to this field
-	//now load all the lists
-	$all_lists=$db->select("list", array("id", "title"));
-	
-	//now run through $all_lists and check if each one is in the field lists, if it is, add a member variable to say that it does apply to this field.
-	//at the end of the day we'll have an array of all lists which exist, with the ones that are applicable to this field marked.
-	foreach($all_lists as &$list)
-	{
-		$list->isForField=false;
-		foreach($field_lists as $f_list)
-		{
-			if ($f_list->list_id==$list->id)
-			{
-				$list->isForField=true;
-			}
-		}
-	}
-	
-	echo json_encode($all_lists);
-}
-*/
 
 function loadFieldLists()
 {
@@ -1331,17 +1248,6 @@ function loadProjectUpdates()
 	
 	foreach($updates as &$update)
 	{
-		/*$update_data=$update->updates;//json_decode(json_decode($update->updates));
-		print_r($update_data);
-		$update->checklists=json_decode($update_data->checklists);
-		foreach($update->checklists as &$checklist)
-		{
-			foreach($checklist->fields as &$field)
-			{
-				//get the field title
-				$field->title=$db->select("field", array("title"), array("id='" . $field->field_id . "'"))[0]->title;
-			}
-		}*/
 		//also get the username for the update
 		$update->username=$db->select("users", array("username"), array("id='" . $update->uid . "'"))[0]->username;
 	}
