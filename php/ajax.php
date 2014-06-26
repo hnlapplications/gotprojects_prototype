@@ -603,7 +603,6 @@ function loadAllProjects()
 		SELECT project.id, project.title, project.project_type, project_type.title as project_type_name FROM project
 		LEFT JOIN project_type on project_type.id=project.project_type
 	");
-	
 	//load all the fields that exist and count towards completion of a project so that they are abailable (don't load them again and again in the loop below, this remains constant)
 	$all_fields=$db->select("field", array("id", "title"), array("count_for_completion='1'"));
 	foreach($projects as &$p)
@@ -749,7 +748,6 @@ function loadAllProjects()
 		//END GROUP COMPLETION CALCULCATION
 		
 	}//foreach projects
-	
 	
 	
 	echo json_encode($projects);
@@ -939,6 +937,7 @@ function updateProject($project)
 
 function loadProject()
 {
+	$starttime = microtime(true);
 	global $db; // $db=new HNLDB("mysql", "localhost", "gotprojects", "root", "", HNLDB::ERROR_EXCEPTION);
 	$projectId=$_POST['id'];
 	//let's load the project.  fun eh!
@@ -1003,8 +1002,10 @@ function loadProject()
 	{
 		return array();
 	}
-	
+	$endtime = microtime(true);
+	$project->totalLoadTime=$endtime-$starttime;
 	echo json_encode($project);
+	
 }
 
 function getStats()

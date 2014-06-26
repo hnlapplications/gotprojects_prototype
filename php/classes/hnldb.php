@@ -42,6 +42,8 @@ class HNLDB
 	private $sth;		//statement handle
 	private $error_mode;	//error mode
 	
+	public $last_query;
+	
 	
 	
 	function __construct($type, $host, $dbname, $user, $pass, $error_mode)
@@ -156,7 +158,7 @@ class HNLDB
 		 $statement="INSERT INTO " . $table . "(" . $columns . ") VALUES (" . $named_placeholders . ")";
 		 $this->sth=$this->dbh->prepare($statement);
 		 $this->sth->execute($data);
-		 
+		 $this->last_query=$statement;
 		 return $this->dbh->lastInsertId();
 		 
 	}
@@ -213,6 +215,7 @@ class HNLDB
 		 }
 		 $this->sth=$this->dbh->prepare($statement);
 		 return $this->sth->execute($data);
+		 $this->last_query=$statement;
 		 
 	}
 	
@@ -252,6 +255,7 @@ class HNLDB
 			
 			$this->sth=$this->dbh->prepare($statement);
 			$this->sth->execute();
+			$this->last_query=$statement;
 			if ($mode=="object")
 			{
 				return $this->sth->fetchAll(PDO::FETCH_OBJ);
@@ -274,6 +278,7 @@ class HNLDB
 		{ 
 			$this->sth=$this->dbh->prepare($query);
 			$this->sth->execute();
+			$this->last_query=$query;
 			if ($mode=="object")
 			{
 				return $this->sth->fetchAll(PDO::FETCH_OBJ);
@@ -326,6 +331,7 @@ class HNLDB
 		 
 		$this->sth=$this->dbh->prepare($statement);
 		$this->sth->execute();
+		$this->last_query=$statement;
 	}
 	
 	public function renameTable($oldName, $newName)
@@ -334,6 +340,7 @@ class HNLDB
 		 
 		$this->sth=$this->dbh->prepare($statement);
 		$this->sth->execute();
+		$this->last_query=$statement;
 	}
 }
 ?>
